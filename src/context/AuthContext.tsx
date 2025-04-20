@@ -1,5 +1,5 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User } from '@/types';
 import { mockUser } from '@/data/mockData';
 import { useToast } from '@/components/ui/use-toast';
@@ -19,8 +19,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  // Check if user is already logged in from localStorage
   useEffect(() => {
     const checkAuth = async () => {
       const storedUser = localStorage.getItem('user');
@@ -36,10 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // For demo purposes, we'll accept any email/password and use our mock user
       if (email && password) {
         setUser(mockUser);
         localStorage.setItem('user', JSON.stringify(mockUser));
@@ -65,7 +63,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signup = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       if (name && email && password) {
@@ -98,6 +95,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       title: "Logged out",
       description: "You have been logged out successfully",
     });
+    navigate('/');
   };
 
   return (
