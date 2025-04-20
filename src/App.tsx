@@ -23,7 +23,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="/finflow-dash">
         <AuthProvider>
           <FinanceProvider>
             <Toaster />
