@@ -9,6 +9,7 @@ import TransactionCard from '@/components/dashboard/TransactionCard';
 import LineChart from '@/components/charts/LineChart';
 import PieChart from '@/components/charts/PieChart';
 import TimeFrameToggle from '@/components/charts/TimeFrameToggle';
+import TransactionForm from '@/components/transactions/TransactionForm';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
@@ -42,56 +43,62 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Financial Dashboard</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold">Financial Dashboard</h1>
+          <p className="text-muted-foreground text-sm">
             Track your income, expenses, and budgets
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
+          <TransactionForm>
+            <Button size="sm" className="gap-1">
+              <Plus size={16} />
+              Add Transaction
+            </Button>
+          </TransactionForm>
           <TimeFrameToggle />
         </div>
       </div>
       
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         <StatCard
           title="Total Income"
           value={`$${totalIncome.toLocaleString()}`}
           description={`${timeframe === 'weekly' ? 'This week' : timeframe === 'monthly' ? 'This month' : 'This year'}`}
-          icon={<ArrowUp className="text-finance-income" size={18} />}
+          icon={<ArrowUp className="text-finance-income" size={16} />}
           trend={{ value: 12, isPositive: true }}
         />
         <StatCard
           title="Total Expenses"
           value={`$${totalExpenses.toLocaleString()}`}
           description={`${timeframe === 'weekly' ? 'This week' : timeframe === 'monthly' ? 'This month' : 'This year'}`}
-          icon={<ArrowDown className="text-finance-expense" size={18} />}
+          icon={<ArrowDown className="text-finance-expense" size={16} />}
           trend={{ value: 5, isPositive: false }}
         />
         <StatCard
           title="Net Savings"
           value={`$${savings.toLocaleString()}`}
           description={`Savings rate: ${savingsRate}%`}
-          icon={<DollarSign className="text-finance-purple" size={18} />}
+          icon={<DollarSign className="text-finance-purple" size={16} />}
           trend={{ value: 8, isPositive: true }}
         />
         <StatCard
           title="Pending Transactions"
           value="3"
           description="Awaiting processing"
-          icon={<Clock className="text-muted-foreground" size={18} />}
+          icon={<Clock className="text-muted-foreground" size={16} />}
         />
       </div>
       
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Income vs. Expenses</CardTitle>
-            <CardDescription>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <Card className="bg-card">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Income vs. Expenses</CardTitle>
+            <CardDescription className="text-sm">
               Track your financial flow over time
             </CardDescription>
           </CardHeader>
@@ -108,10 +115,10 @@ const Dashboard = () => {
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader>
-            <CardTitle>Expenses by Category</CardTitle>
-            <CardDescription>
+        <Card className="bg-card">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Expenses by Category</CardTitle>
+            <CardDescription className="text-sm">
               See where your money is going
             </CardDescription>
           </CardHeader>
@@ -126,8 +133,8 @@ const Dashboard = () => {
       
       {/* Budget Progress */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Budget Status</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-semibold">Budget Status</h2>
           <Link to="/budgets">
             <Button variant="outline" size="sm" className="gap-1">
               <Plus size={16} />
@@ -135,7 +142,7 @@ const Dashboard = () => {
             </Button>
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {budgets.slice(0, 3).map((budget) => (
             <BudgetProgressCard key={budget.id} budget={budget} />
           ))}
@@ -144,8 +151,8 @@ const Dashboard = () => {
       
       {/* Recent Transactions */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold">Recent Transactions</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-semibold">Recent Transactions</h2>
           <Link to="/transactions">
             <Button variant="outline" size="sm" className="gap-1">
               <CreditCard size={16} />
@@ -153,7 +160,7 @@ const Dashboard = () => {
             </Button>
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {recentTransactions.map((transaction) => (
             <TransactionCard key={transaction.id} transaction={transaction} />
           ))}
