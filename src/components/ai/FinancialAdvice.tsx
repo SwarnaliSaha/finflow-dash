@@ -60,8 +60,14 @@ const FinancialAdvice = () => {
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-semibold text-finance-purple">AI Financial Assistant</CardTitle>
-          <Button variant="ghost" size="icon" onClick={() => setShowDetails(!showDetails)}>
-            <HelpCircle size={18} className="text-muted-foreground" />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-xs gap-1"
+            onClick={() => setShowDetails(!showDetails)}
+          >
+            <Info size={16} className="text-muted-foreground" />
+            <span>View Analysis</span>
           </Button>
         </div>
         <CardDescription>
@@ -166,10 +172,10 @@ const FinancialAdvice = () => {
             <Button
               variant="secondary"
               size="sm"
-              className="text-xs w-full bg-finance-purple/10 hover:bg-finance-purple/20"
+              className="text-xs w-full bg-finance-purple/10 hover:bg-finance-purple/20 animate-fade-in"
               onClick={() => navigate("/financial-advice")}
             >
-              Drill Down &amp; See All Insights
+              Explore Complete Financial Insights
             </Button>
           </div>
         )}
