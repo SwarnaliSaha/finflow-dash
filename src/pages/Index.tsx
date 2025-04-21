@@ -8,6 +8,7 @@ import SignupForm from '@/components/auth/SignupForm';
 
 const Index = () => {
   const [showLogin, setShowLogin] = useState(true);
+  const [activeSection, setActiveSection] = useState('');
   const navigate = useNavigate();
 
   const toggleForm = () => {
@@ -16,6 +17,14 @@ const Index = () => {
 
   const handleDemoLogin = () => {
     navigate('/dashboard');
+  };
+
+  const scrollToSection = (section: string) => {
+    setActiveSection(section);
+    const element = document.getElementById(section);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -28,13 +37,25 @@ const Index = () => {
             <span className="text-xl font-bold">FinFlow</span>
           </div>
           <div className="hidden md:flex gap-4">
-            <Button variant="ghost" className="text-white hover:bg-white/10">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:bg-white/10"
+              onClick={() => scrollToSection('features')}
+            >
               Features
             </Button>
-            <Button variant="ghost" className="text-white hover:bg-white/10">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:bg-white/10"
+              onClick={() => scrollToSection('about')}
+            >
               About
             </Button>
-            <Button variant="ghost" className="text-white hover:bg-white/10">
+            <Button 
+              variant="ghost" 
+              className="text-white hover:bg-white/10"
+              onClick={() => scrollToSection('contact')}
+            >
               Contact
             </Button>
           </div>
@@ -53,8 +74,9 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 border rounded-lg flex items-start space-x-3">
+          {/* Features Section */}
+          <div id="features" className="grid grid-cols-1 md:grid-cols-2 gap-4 scroll-mt-20">
+            <div className="p-4 border rounded-lg flex items-start space-x-3 hover:bg-muted/50 transition-colors">
               <DollarSign className="text-finance-purple mt-1" size={20} />
               <div>
                 <h3 className="font-medium">Expense Tracking</h3>
@@ -63,7 +85,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="p-4 border rounded-lg flex items-start space-x-3">
+            <div className="p-4 border rounded-lg flex items-start space-x-3 hover:bg-muted/50 transition-colors">
               <BarChart className="text-finance-purple mt-1" size={20} />
               <div>
                 <h3 className="font-medium">Budget Planning</h3>
@@ -72,7 +94,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="p-4 border rounded-lg flex items-start space-x-3">
+            <div className="p-4 border rounded-lg flex items-start space-x-3 hover:bg-muted/50 transition-colors">
               <TrendingUp className="text-finance-purple mt-1" size={20} />
               <div>
                 <h3 className="font-medium">Financial Insights</h3>
@@ -81,7 +103,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="p-4 border rounded-lg flex items-start space-x-3">
+            <div className="p-4 border rounded-lg flex items-start space-x-3 hover:bg-muted/50 transition-colors">
               <PiggyBank className="text-finance-purple mt-1" size={20} />
               <div>
                 <h3 className="font-medium">Savings Goals</h3>
@@ -90,6 +112,26 @@ const Index = () => {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* About Section */}
+          <div id="about" className="space-y-4 scroll-mt-20">
+            <h2 className="text-2xl font-bold">About FinFlow</h2>
+            <p className="text-muted-foreground">
+              FinFlow is a comprehensive financial management application designed to help individuals and small businesses 
+              track expenses, set budgets, and achieve financial goals. Our intuitive dashboards and reports make it easy 
+              to visualize your financial health at a glance.
+            </p>
+          </div>
+
+          {/* Contact Section */}
+          <div id="contact" className="space-y-4 scroll-mt-20">
+            <h2 className="text-2xl font-bold">Contact Us</h2>
+            <p className="text-muted-foreground">
+              Have questions about FinFlow? We'd love to hear from you! 
+              Reach out at <span className="text-finance-purple">support@finflow.com</span> or 
+              call us at <span className="text-finance-purple">(555) 123-4567</span>.
+            </p>
           </div>
 
           <Button

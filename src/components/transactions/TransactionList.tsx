@@ -19,8 +19,12 @@ import { cn } from '@/lib/utils';
 type SortField = 'date' | 'amount' | 'category' | 'description';
 type SortDirection = 'asc' | 'desc';
 
-const TransactionList = () => {
-  const { transactions, deleteTransaction } = useFinance();
+interface TransactionListProps {
+  transactions: Transaction[];
+}
+
+const TransactionList = ({ transactions }: TransactionListProps) => {
+  const { deleteTransaction } = useFinance();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortField, setSortField] = useState<SortField>('date');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
@@ -81,7 +85,7 @@ const TransactionList = () => {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
         <Input
@@ -122,7 +126,7 @@ const TransactionList = () => {
           <TableBody>
             {sortedTransactions.length > 0 ? (
               sortedTransactions.map((transaction) => (
-                <TableRow key={transaction.id}>
+                <TableRow key={transaction.id} className="hover-scale-subtle transition-all">
                   <TableCell>{formatDate(transaction.date)}</TableCell>
                   <TableCell>{transaction.description}</TableCell>
                   <TableCell>
