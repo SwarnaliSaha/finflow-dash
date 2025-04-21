@@ -1,51 +1,56 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { Budget } from '@/types';
-import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import BudgetEditForm from '@/components/budgets/BudgetEditForm';
 
-interface BudgetProgressCardProps {
+type BudgetProgressCardProps = {
   budget: Budget;
-}
+};
 
 const BudgetProgressCard = ({ budget }: BudgetProgressCardProps) => {
-  const percentSpent = Math.min(100, Math.round((budget.spent / budget.amount) * 100));
-  const remaining = budget.amount - budget.spent;
+  const { name, amount, spent, category } = budget;
   
-  // Colors based on spending progress
-  const getStatusColor = () => {
-    if (percentSpent > 90) return 'text-finance-expense';
-    if (percentSpent > 75) return 'text-orange-500';
-    return 'text-finance-income';
-  };
+  // Calculate percentage spent
+  const percentage = Math.min(Math.round((spent / amount) * 100), 100);
   
+  // Determine color based on percentage
   const getProgressColor = () => {
-    if (percentSpent > 90) return 'bg-finance-expense';
-    if (percentSpent > 75) return 'bg-orange-500';
+    if (percentage >= 90) return 'bg-finance-expense';
+    if (percentage >= 75) return 'bg-amber-500';
     return 'bg-finance-income';
   };
-
+  
+  // Format remaining amount
+  const remaining = amount - spent;
+  const remainingFormatted = remaining.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+  
   return (
-    <Card className="animated-card overflow-hidden">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">{budget.name}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between text-sm">
-            <span>${budget.spent.toLocaleString()} spent</span>
-            <span className={cn("font-medium", getStatusColor())}>
-              ${remaining.toLocaleString()} left
-            </span>
+    <Card className="overflow-hidden hover:shadow-md transition-shadow">
+      <CardContent className="p-3">
+        <div className="flex items-start justify-between mb-1">
+          <div>
+            <h3 className="font-medium text-sm">{name}</h3>
+            <p className="text-xs text-muted-foreground">{category}</p>
           </div>
-          <Progress
-            value={percentSpent}
-            className="h-2 bg-muted"
-            indicatorClassName={getProgressColor()}
-          />
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>Total: ${budget.amount.toLocaleString()}</span>
-            <span>{percentSpent}% used</span>
+          <div className="text-right">
+            <p className="font-medium text-sm">
+              ${spent.toLocaleString()} <span className="text-muted-foreground">/ ${amount.toLocaleString()}</span>
+            </p>
+            <p className="text-xs text-muted-foreground">{remainingFormatted} left</p>
+          </div>
+        </div>
+        
+        <div className="mt-2">
+          <Progress value={percentage} className={`h-2 ${getProgressColor()}`} />
+          <div className="flex justify-between mt-1">
+            <p className="text-xs text-muted-foreground">{percentage}% used</p>
+            {percentage >= 90 && (
+              <p className="text-xs text-finance-expense font-medium">Budget Alert</p>
+            )}
           </div>
         </div>
       </CardContent>

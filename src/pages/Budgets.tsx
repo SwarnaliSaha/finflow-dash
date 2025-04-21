@@ -3,9 +3,10 @@ import { useFinance } from '@/context/FinanceContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import BudgetProgressCard from '@/components/dashboard/BudgetProgressCard';
 import BudgetForm from '@/components/budgets/BudgetForm';
+import BudgetEditForm from '@/components/budgets/BudgetEditForm';
 import PieChart from '@/components/charts/PieChart';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle, Trash2 } from 'lucide-react';
+import { AlertCircle, PencilIcon, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Budgets = () => {
@@ -21,11 +22,11 @@ const Budgets = () => {
   ];
   
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold">Budget Management</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl font-bold">Budget Management</h1>
+          <p className="text-sm text-muted-foreground">
             Create and track your budgets to control your spending
           </p>
         </div>
@@ -33,10 +34,10 @@ const Budgets = () => {
       </div>
       
       {/* Expense Distribution Chart */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Expense Distribution</CardTitle>
-          <CardDescription>
+      <Card className="bg-white">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base font-medium">Expense Distribution</CardTitle>
+          <CardDescription className="text-xs">
             See how your spending is distributed across categories
           </CardDescription>
         </CardHeader>
@@ -44,26 +45,34 @@ const Budgets = () => {
           <PieChart
             data={expensesByCategory}
             colors={pieColors}
+            height={250}
           />
         </CardContent>
       </Card>
       
       {/* Budget List */}
       <div>
-        <h2 className="text-xl font-bold mb-4">Your Budgets</h2>
+        <h2 className="text-lg font-semibold mb-3">Your Budgets</h2>
         
         {budgets.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {budgets.map((budget) => (
               <div key={budget.id} className="relative group">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                  onClick={() => deleteBudget(budget.id)}
-                >
-                  <Trash2 size={16} className="text-muted-foreground hover:text-destructive" />
-                </Button>
+                <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex space-x-1">
+                  <BudgetEditForm budget={budget}>
+                    <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/80 hover:bg-white">
+                      <PencilIcon size={14} className="text-muted-foreground hover:text-foreground" />
+                    </Button>
+                  </BudgetEditForm>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7 bg-white/80 hover:bg-white"
+                    onClick={() => deleteBudget(budget.id)}
+                  >
+                    <Trash2 size={14} className="text-muted-foreground hover:text-destructive" />
+                  </Button>
+                </div>
                 <BudgetProgressCard budget={budget} />
               </div>
             ))}
