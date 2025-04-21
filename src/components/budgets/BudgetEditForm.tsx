@@ -30,6 +30,7 @@ const BudgetEditForm = ({ budget, children }: BudgetEditFormProps) => {
     amount: budget.amount,
     category: budget.category,
     spent: budget.spent,
+    period: budget.period, // Add the period property
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +48,13 @@ const BudgetEditForm = ({ budget, children }: BudgetEditFormProps) => {
     });
   };
 
+  const handlePeriodChange = (value: 'weekly' | 'monthly' | 'yearly') => {
+    setFormData({
+      ...formData,
+      period: value,
+    });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -59,6 +67,7 @@ const BudgetEditForm = ({ budget, children }: BudgetEditFormProps) => {
       amount: formData.amount,
       category: formData.category,
       spent: formData.spent,
+      period: formData.period, // Include the period property
     });
     
     setOpen(false);
@@ -134,6 +143,26 @@ const BudgetEditForm = ({ budget, children }: BudgetEditFormProps) => {
                     <SelectItem value="Personal">Personal</SelectItem>
                     <SelectItem value="Travel">Travel</SelectItem>
                     <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="period" className="text-right">
+                Period
+              </Label>
+              <div className="col-span-3">
+                <Select
+                  value={formData.period}
+                  onValueChange={handlePeriodChange}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select period" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="weekly">Weekly</SelectItem>
+                    <SelectItem value="monthly">Monthly</SelectItem>
+                    <SelectItem value="yearly">Yearly</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

@@ -54,12 +54,7 @@ const Dashboard = () => {
         </div>
         <div className="flex items-center gap-2">
           <TimeFrameToggle />
-          <TransactionForm>
-            <Button size="sm" className="gap-1 bg-finance-purple hover:bg-finance-purple-dark">
-              <Plus size={16} />
-              Add Transaction
-            </Button>
-          </TransactionForm>
+          <TransactionForm />
         </div>
       </div>
       

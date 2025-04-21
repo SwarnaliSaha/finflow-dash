@@ -3,6 +3,8 @@ import { Budget } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import BudgetEditForm from '@/components/budgets/BudgetEditForm';
+import { Button } from '@/components/ui/button';
+import { PencilIcon } from 'lucide-react';
 
 type BudgetProgressCardProps = {
   budget: Budget;
@@ -29,18 +31,27 @@ const BudgetProgressCard = ({ budget }: BudgetProgressCardProps) => {
   });
   
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-shadow">
+    <Card className="overflow-hidden hover:shadow-md transition-shadow relative group">
       <CardContent className="p-3">
         <div className="flex items-start justify-between mb-1">
           <div>
             <h3 className="font-medium text-sm">{name}</h3>
             <p className="text-xs text-muted-foreground">{category}</p>
           </div>
-          <div className="text-right">
-            <p className="font-medium text-sm">
-              ${spent.toLocaleString()} <span className="text-muted-foreground">/ ${amount.toLocaleString()}</span>
-            </p>
-            <p className="text-xs text-muted-foreground">{remainingFormatted} left</p>
+          <div className="flex items-start">
+            <div className="text-right mr-2">
+              <p className="font-medium text-sm">
+                ${spent.toLocaleString()} <span className="text-muted-foreground">/ ${amount.toLocaleString()}</span>
+              </p>
+              <p className="text-xs text-muted-foreground">{remainingFormatted} left</p>
+            </div>
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <BudgetEditForm budget={budget}>
+                <Button variant="ghost" size="icon" className="h-7 w-7">
+                  <PencilIcon size={14} />
+                </Button>
+              </BudgetEditForm>
+            </div>
           </div>
         </div>
         
