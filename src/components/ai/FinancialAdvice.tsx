@@ -1,19 +1,19 @@
-
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { BarChart, PieChart, TrendingUp, Info, HelpCircle } from 'lucide-react';
 import { useFinance } from '@/context/FinanceContext';
+import { useNavigate } from 'react-router-dom';
 
 const FinancialAdvice = () => {
   const { totalIncome, totalExpenses, getExpensesByCategory } = useFinance();
   const [showDetails, setShowDetails] = useState(false);
+  const navigate = useNavigate();
   
   const expensesByCategory = getExpensesByCategory();
   const savingsRate = totalIncome > 0 ? Math.round((totalIncome - totalExpenses) / totalIncome * 100) : 0;
   
-  // Generate personalized advice based on user's financial data
   const getBudgetingAdvice = () => {
     if (savingsRate < 10) {
       return "Your savings rate is below 10%, which might be risky long-term. Consider following the 50/30/20 rule: 50% of income for necessities, 30% for wants, and 20% for savings/debt.";
@@ -25,7 +25,6 @@ const FinancialAdvice = () => {
   };
   
   const getSpendingAdvice = () => {
-    // Find highest expense category
     let highestCategory = { name: '', value: 0 };
     
     expensesByCategory.forEach(category => {
@@ -155,14 +154,24 @@ const FinancialAdvice = () => {
         )}
         
         {!showDetails && (
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="mt-2 text-xs w-full bg-white hover:bg-finance-purple/10"
-            onClick={() => setShowDetails(true)}
-          >
-            View Detailed Analysis
-          </Button>
+          <div className="flex flex-col gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-2 text-xs w-full bg-white hover:bg-finance-purple/10"
+              onClick={() => setShowDetails(true)}
+            >
+              View Detailed Analysis
+            </Button>
+            <Button
+              variant="secondary"
+              size="sm"
+              className="text-xs w-full bg-finance-purple/10 hover:bg-finance-purple/20"
+              onClick={() => navigate("/financial-advice")}
+            >
+              Drill Down &amp; See All Insights
+            </Button>
+          </div>
         )}
       </CardContent>
     </Card>
